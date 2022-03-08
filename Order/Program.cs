@@ -1,3 +1,4 @@
+using Order.Policies;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,7 +10,7 @@ builder.Host.UseSerilog((ctx, logger) =>
     .MinimumLevel.Information();
 });
 // Add services to the container.
-
+builder.Services.AddSingleton(new ServerPolicy().RetryForever);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
