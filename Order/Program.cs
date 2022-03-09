@@ -1,5 +1,6 @@
-using Order.Policies;
 using Serilog;
+using Microsoft.OpenApi.Models;
+using Order.Policies;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddLogging();
@@ -14,7 +15,15 @@ builder.Services.AddSingleton(new ServerPolicy().RetryForever);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(opt =>
+{
+    opt.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Version = "v1",
+        Title = "Order API",
+        Description = "An API for managing orders."
+    });
+});
 
 var app = builder.Build();
 
