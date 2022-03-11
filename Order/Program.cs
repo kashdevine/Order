@@ -1,6 +1,8 @@
 using Serilog;
 using Microsoft.OpenApi.Models;
+using Microsoft.EntityFrameworkCore;
 using Order.Policies;
+using Order.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddLogging();
@@ -25,6 +27,12 @@ builder.Services.AddSwaggerGen(opt =>
     });
 });
 
+builder.Services.AddDbContext<OrderContext>(opt =>
+{
+    var connString = builder.Configuration.GetConnectionString("OrderDatabase");
+    opt.UseSqlServer(connString);
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -40,6 +48,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.MapHealthChecks("/healthz");
+app.MapHealthChecks("/health");
 
 app.Run();
