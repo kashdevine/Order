@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Order.Tests
 {
-    public class Utilities
+    public static class Utilities
     {
     }
 }
