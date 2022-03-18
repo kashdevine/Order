@@ -8,7 +8,8 @@ builder.Host.UseSerilog((ctx, logger) =>
 {
     logger
     .WriteTo.Console()
-    .MinimumLevel.Information();
+    .MinimumLevel.Information()
+    .Enrich.FromLogContext();
 });
 // Add services to the container.
 builder.Services.AddSingleton(new ServerPolicy().RetryForever);
